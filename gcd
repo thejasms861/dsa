@@ -1,0 +1,79 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int GCD(int m, int n);
+void Hanoi(int n, char s, char a, char d);
+int Large(int a[], int n);
+
+int main() {
+    int ch, a, b, n, num, res1, res2, ar[100];
+
+    for (;;) {
+        printf("\n\tMenu\n");
+        printf("1: To GCD\n");
+        printf("2: To Tower of hanoi\n");
+        printf("3: To Largest\n");
+        printf("Enter your Choice :\n");
+        scanf("%d", &ch);
+
+        switch (ch) {
+            case 1:
+                printf("Enter the value of a and b :");
+                scanf("%d%d", &a, &b);
+                res1 = GCD(a, b);
+                printf("GCD=%d", res1);
+                break;
+
+            case 2:
+                printf("Enter the number of disks:");
+                scanf("%d", &num);
+                Hanoi(num, 'A', 'B', 'C');
+                break;
+
+            case 3:
+                printf("Enter the size of array:");
+                scanf("%d", &n);
+                printf("Enter the elements:");
+                for (int i = 0; i < n; i++)
+                    scanf("%d", &ar[i]);
+                res2 = Large(ar, n);
+                printf("Largest=%d", res2);
+                break;
+
+            case 4:
+                return 0;
+
+            default:
+                printf("\nInvalid Choice\n");
+        }
+    }
+    return 0;
+}
+
+int GCD(int m, int n)
+{
+    if (n == 0)
+        return m;
+    return GCD(n, m % n); // Properly returning the result of recursion
+}
+
+int Hanoi(int n, char s, char a, char d)
+{
+    if (n == 1)
+    {
+        printf("\nmove disk 1 from %c to %c", s, d);
+        return 0;
+    }
+    Hanoi(n - 1, s, d, a);
+    printf("\nmove disk %d from %c to %c", n, s, d);
+    Hanoi(n - 1, a, s, d);
+    return 0;
+}
+
+int Large(int a[], int n)
+{
+    if (n == 1)
+        return a[0];
+    int max = Large(a + 1, n - 1);
+    return (a[0] > max ? a[0] : max);
+}
